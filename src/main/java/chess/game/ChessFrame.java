@@ -1,4 +1,4 @@
-package assignments;
+package chess.game;
 //A bunch of garbage
 import java.awt.BorderLayout;
 import java.awt.Color;
