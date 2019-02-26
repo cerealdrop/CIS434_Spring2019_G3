@@ -1,5 +1,5 @@
 package assignments;
-
+//Modified experimental build based on code found online (not for primary use in current state)
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
