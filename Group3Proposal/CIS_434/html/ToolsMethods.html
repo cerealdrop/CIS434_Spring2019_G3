@@ -1,0 +1,67 @@
+<html>
+
+<head>
+<style>
+div.font {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 100%;
+}
+
+p.format {
+  text-indent: 49px;
+  max-width: 625px;
+  word-wrap: break-word;
+}
+</style>
+<title>Tools and Methods</title>
+</head>
+
+<body>
+
+<h4>Tools and Methods</h4>
+
+<h3>
+    <p><a href="../../index.html">Home</a></p>
+</h3>
+
+<div class="font">
+    <p class="format">
+        To accomplish the above tasks, we will need to keep track of what each team member is
+        doing. This will be done by using the GitHub. As such, we can use different IDEs such as intellij
+        and eclipse for our chosen programming language (JAVA). To create the GUI of the board and
+        menu, we will use javaFX or swing; we have yet to decide which library to use but intend to pick
+        one at a later date.
+    </p>
+    <p class="format">
+        An overview of how the GUI will function is that the turn player will be able to click on
+        any of their movable pieces which highlights the legal movements for that piece. The selected
+        piece will be highlighted blue, legal moves are highlighted green, invalid moves because of the
+        current board state are marked red, and purple is used to highlight moves that result in taking an
+        opponent’s piece. The turn player can then click on the square they wish to move the selected
+        piece to or click on the chess piece again to cancel out of their current selection. Such
+        functionality enables intuitive move selection for the user and prevents an inexperienced player
+        from attempting illegal moves.
+    </p>
+    <p class="format">
+        We will also be implementing a sidebar that displays the previous moves made during the
+        game. This allows each player to review how they got to the current game state and potentially
+        where they went wrong in their move choice. The sidebar will also allow us to implement a way
+        to revert the game state to a previous turn. This is useful for testing move options not previously
+        considered until a later point in the game.
+    </p>
+    <p class="format">
+        Aside from this we also have the logic aspect of the game to consider which will be
+        bound to the GUI later. The board will be an 8x8 matrix of buttons and chess pieces will be icons
+        stored in separate instances of a class that dictates their behavior on the board based on the type
+        of chess piece represented by the icon. Such behavior includes the movement of the chess piece
+        and special properties for that piece such as en passant and castling.
+    </p>
+    <p class="format">
+        Another possibility would be to have a superclass called ChessPiece with subclasses for
+        each type of piece. We have yet to decide on the exact implementation for each chess piece. As
+        for the AI, we still need to do a lot of research to even begin implementing it. It is the last thing
+        we will do to finalize the project.
+    </p><br>
+</div>
+</body>
+</html>
