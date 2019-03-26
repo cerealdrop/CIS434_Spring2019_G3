@@ -1,0 +1,102 @@
+chess note
+the board have files and rank 
+files-> a b c d e f g h
+rank-> 1 2 3 4 5 6 7 8
+
+there are 64 squares each squred refred to by its file first depending on its horizontal position
+and rank dependding its vatical position.
+
+the chess board would be represented in the board by an array of 64
+The array would index from 0 to 63 and certan numbers would represent a pice
+as shown below
+
+the chess board
+
+1   a1 b1 c1 d1 e1 f1 g1 h1
+2   a2 b2 c2 d2 e2 f2 g2 h2
+3   a3 b3 c3 d3 e3 f3 g3 h3 
+4   a4 b4 c4 d4 e4 f4 g4 h4
+5   a5 b5 c5 d5 e5 f5 g5 h5 
+6   a6 b6 c6 d6 e6 f6 g6 h6
+7   a7 b7 c7 d7 e7 f7 g7 h7
+8   a8 b8 c8 d8 e8 f8 g8 h8
+    a  b  c  d  e  f  g  h
+
+    representation
+
+1   0  0  0  0  0  0  0  0
+2   1  1  1  1  1  1  1  1 - 1 could represent white pawn
+3   0  0  0  0  0  0  0  0 
+4   0  0  0  0  0  0  0  0 - zero would mean empty squares
+5   0  0  0  0  0  0  0  0
+6   0  0  0  0  0  0  0  0
+7   7  7  7  7  7  7  7  7 - 7 could represent black pawn
+8   0  0  0  0  0  0  0  0
+    a  b  c  d  e  f  g  h
+
+generating a move 
+say we have a queen and it is on c4 the queen can move up, down , left , right, left diagonal and right diagonal
+to generate we will need to do some basic math like addition or multiplication depneding on wich move
+the problem is we could get a wrap around as for example we loop horizontal move and end up on h4
+then instead of stoping we go to a5 which is invalid so we need to adress this issue. also we cant move to an 
+ocupied space that be longs to our team say black queen cant get black rook but dependding on the circumstance
+black queen can move to white rook and take white rook out. we need to account for this.
+
+handeling the wrap around the board 
+we can make the array 110 to 120 and designate of board values, thus when we hit such values we break out of 
+the loop.
+
+new chess board concept
+0   1   2   3   4   5   6   7   8   9
+10  11  12  13  14  15  16  17  18  19 
+20  a1  b1  c1  d1  e1  f1  g1  h1  29
+30  a2  b2  c2  d2  e2  f2  g2  h2  39
+40  a3  b3  c3  d3  e3  f3  g3  h3  49
+50  a4  b4  c4  d4  e4  f4  g4  h4  59
+60  a5  b5  c5  d5  e5  f5  g5  h5  69
+70  a6  b6  c6  d6  e6  f6  g6  h6  79
+80  a7  b7  c7  d7  e7  f7  g7  h7  89
+90  a8  b8  c8  d8  e8  f8  g8  h8  99
+100 101 102 103 104 105 106 107 108 109
+110 111 112 113 114 115 116 117 118 119
+
+two extra horizontal squares rows for knight moves
+
+given the board above and our defination.js the representation
+of the board becomes.
+
+100 100 100 100 100 100 100 100 100 100
+100 100 100 100 100 100 100 100 100 100 
+100  0   0   0   0   0   0   0   0  100
+100  1   1   1   1   1   1   1   1  100
+100  0   0   0   0   0   0   0   0  100
+100  0   0   0   0   0   0   0   0  100
+100  0   0   0   0   0   0   0   0  100
+100  0   0   0   0   0   0   0   0  100
+100  1   1   1   1   1   1   1   1  100
+100  0   0   0   0   0   0   0   0  100
+100 100 100 100 100 100 100 100 100 100
+100 100 100 100 100 100 100 100 100 100
+
+100 as shown represnt off the board and will indicate a
+wrap around situation given this i will be an indicator value in our
+function to avoid off board wrap situation.
+
+
+during the game we wiil need to keep status update
+first is to keep track of the fifty moves
+    basically if both player play 50 moves each
+    100 moves total and no pawn is moved or there is no 
+    capture then the player can claim a draw.
+
+we also keep count of every made from the start
+we will also keep track of the number of moves made by each 
+    player.
+then we will track of casteleing.
+    castling only ocurs when the king and the rooks
+    are on their starting point and have never made a move.
+    you can have king or queen casteleing depending on which side you 
+    castele.
+    we will determine bit casteleing with bit wise operation 
+    on castle bit.
+generating a pice.
