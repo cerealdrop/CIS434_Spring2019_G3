@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>This example uses the addEventListener() method to attach a click event to a button.</p>
+
+<button id=1>Try it</button>
+
+<p><strong>Note:</strong> The addEventListener() method is not supported in Internet Explorer 8 and earlier versions.</p>
+
+<p id="demo"></p>
+
+<script>
+var i = 1;
+document.getElementById(i).addEventListener("click", function(){
+  document.getElementById("demo").innerHTML = "Hello World";
+});
+</script>
+
+</body>
+</html>
