@@ -1,0 +1,80 @@
+<html>
+<div style="width:auto">
+<head>
+<style>
+div.font {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 110%;
+}
+
+p.format {
+  text-indent: 49px;
+  max-width: 625px;
+  word-wrap: break-word;
+}
+</style>
+<title>CIS 434 Progress Report</title>
+<center><p><img src="CIS_434/images/CSU_Logo.jpg"width="11%"height="20%">
+
+<p><h1>EECS Department</h1>
+<p><h1>CIS 434 Software Engineering</h1>
+<p><h2>Group 3 Progress Report - Chess Game</h2>
+<p><h2>Ethan Kline, Matthew Nathal, Megan Keleman and Victor Ipinmoroti</h2></center>
+</head>
+<body>
+<br>
+<div class="font">
+    <p class="format">
+        The first goal of the team was to decide on a programming language to use. The
+        team initially considered using either the JavaFX or Swing library in Java to write the
+        chess program. To do this, Ethan developed a few basic prototypes of a chessboard to
+        figure out the best way to write the user interface. JavaFX was quickly scrapped as the
+        team encountered many unfixable difficulties with maintaining consistency in the UI
+        when resizing the board during runtime. When stretching the frame that the board was built
+        into, the chess squares would also resize, ruining the aspect ratio of the chessboard. In
+        other words, the squares would become rectangles ruining the design. Furthermore,
+        JavaFX was more difficult to code with than either Java Swing or html with JavaScript.
+    </p>
+    <p class="format">
+        Designing the UI in Java Swing would also be difficult, but not as much as
+        JavaFX. While building just the board in Swing is a non-issue, implementing a clean UI
+        that includes a multiline JTextArea that displays previous moves made and a side menu is
+        not. How the interface as a whole scales when expanding just the width or just the
+        height is vital. The interface can't look like it's stretched to unrealistic proportions.
+    </p>
+    <p class="format">
+        After scrapping JavaFX from consideration, the team also considered the use of
+        html. Advantages would mainly consist of an easier time designing the interface of the
+        program while the game mechanics could be written in JavaScript. Furthermore, html
+        also solves the scaling issue as a web browser can't change just its width or just its
+        height, it has to be both in equal measure. The largest difficulty would be a lack of
+        familiarity with the languages, but after looking them over it was determined that html
+        in conjunction with JavaScript would be fairly easy to use. Java and Swing will be used
+        as a fallback option in the event of unexpected difficulties that can't be worked around.
+    </p>
+    <p class="format">
+        Ethan analyzed the 3 possible ways of creating the chessboard and determined that
+        JavaFX was the most impractical. From there Victor decided to focus on using html to create
+        the user interface. Victor has already created the board and the first part of the side menu,
+        but has yet to get further than that. Megan continues to work on the AI. She has found a
+        potential solution that she is currently looking into. Matthew and Ethan each proposed a way
+        to move the chess pieces on the board. Matthew's solution focuces on moving the chess piece
+        icons directly, while Ethan's uses buttons instead.
+    </p>
+    <p class="format">
+        The single biggest issue was the distribution of tasks. Originally, Ethan was
+        supposed to design all aspects of game logic including piece movement and board state,
+        Megan would focus on the AI's development, and Victor would create the user interface.
+        With the introduction of a fourth team member, however, things changed. The team had
+        to redistribute tasks so that everyone could take part in the software's development.
+    </p>
+    <p class="format">
+        It was found that the simplest responsibility to split between 2 team members
+        was the game logic and some parts of the user interface. This is why Matthew was given
+        the responsibility of getting the chess pieces to move and to only allow legal moves to
+        be made, and Ethan's role extended to a small part of the interface development.
+    </p>
+</div>
+</div>
+</body>
+</html>
