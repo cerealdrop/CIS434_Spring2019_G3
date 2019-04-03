@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Chess Game</title>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan" rel="stylesheet">
+        <link rel="stylesheet" href="css/board.css">
+
+        <!-- jQuery library -->
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+
+        <!-- Latest compiled JavaScript -->
+        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
+        <script type="text/javascript" src="js/movement.js"></script>
+    </head>
+
+    <body>            
+        <!-- Only need to use center tag once -->
+        <center>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-md-2">
+                    <div class="text-success">
+                        <h1>
+                            <br><i class="glyphicon glyphicon-knight"></i> Chess<br>
+                            Game<i class="glyphicon glyphicon-knight"></i>
+                        </h1>
+                    </div>
+
+                    <br><button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal"><b>Menu</b></button>
+
+                    <!-- Modal -->
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title"><b>Menu</b></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <button type="button" class="btn btn-success btn-lg"><b>AI VS Player</b></button>
+                                    <button type="button" class="btn btn-success btn-lg"><b> VS Player</b></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal"><b>Close</b></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="panel panel-success top">
+                        <div class="panel-heading">
+                            <div class="text-dark">
+                                <h6><b>Player VS Player</b></h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="jumbotron">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td style="color:white"><b>8</b></td>
+                                    <td><button id = "81" type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9820</h1></button></td>
+                                    <td><button id = "82" type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9822</h1></button></td>
+                                    <td><button id = "83" type="button" class="btn btn-default" onclick="go(this.id)"><h1> &#9821</h1></button></td>
+                                    <td><button id = "84" type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9819</h1></button></td>
+                                    <td><button id = "85" type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9818</h1></button></td>
+                                    <td><button id = "86" type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9821</h1></button></td>
+                                    <td><button id = "87" type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9822</h1></button></td>
+                                    <td><button id = "88" type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9820</h1></button></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white"><b>7</b></td>
+                                    <td><button id = 71 type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9823</h1></button></td>
+                                    <td><button id = 72 type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9823</h1></button></td>
+                                    <td><button id = 73 type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9823</h1></button></td>
+                                    <td><button id = 74 type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9823</h1></button></td>
+                                    <td><button id = 75 type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9823</h1></button></td>
+                                    <td><button id = 76 type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9823</h1></button></td>
+                                    <td><button id = 77 type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9823</h1></button></td>
+                                    <td><button id = 78 type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9823</h1></button></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white"><b>6</b></td>
+                                    <td><button id = 61 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                    <td><button id = 62 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                    <td><button id = 63 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                    <td><button id = 64 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                    <td><button id = 65 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                    <td><button id = 66 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                    <td><button id = 67 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                    <td><button id = 68 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white"><b>5</b></td>
+                                    <td><button id = 51 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                    <td><button id = 52 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                    <td><button id = 53 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                    <td><button id = 54 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                    <td><button id = 55 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                    <td><button id = 56 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                    <td><button id = 57 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                    <td><button id = 58 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white"><b>4</b></td>
+                                    <td><button id = 41 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                    <td><button id = 42 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                    <td><button id = 43 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                    <td><button id = 44 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                    <td><button id = 45 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                    <td><button id = 46 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                    <td><button id = 47 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                    <td><button id = 48 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                </tr>    
+                                <tr>
+                                    <td style="color:white"><b>3</b></td>
+                                    <td><button id = 31 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                    <td><button id = 32 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                    <td><button id = 33 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                    <td><button id = 34 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                    <td><button id = 35 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                    <td><button id = 36 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                    <td><button id = 37 type="button" class="btn btn-basic" onclick="go(this.id)"></button></td>
+                                    <td><button id = 38 type="button" class="btn btn-default" onclick="go(this.id)"></button></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white"><b>2</b></td>
+                                    <td><button id = 21 type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9817</h1></button></td>
+                                    <td><button id = 22 type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9817</h1></button></td>
+                                    <td><button id = 23 type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9817</h1></button></td>
+                                    <td><button id = 24 type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9817</h1></button></td>
+                                    <td><button id = 25 type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9817</h1></button></td>
+                                    <td><button id = 26 type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9817</h1></button></td>
+                                    <td><button id = 27 type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9817</h1></button></td>
+                                    <td><button id = 28 type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9817</h1></button></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white"><b>1</b></td>
+                                    <td><button id = 11 type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9814</h1></button></td>
+                                    <td><button id = 12 type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9816</h1></button></td>
+                                    <td><button id = 13 type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9815</h1></button></td>
+                                    <td><button id = 14 type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9813</h1></button></td>
+                                    <td><button id = 15 type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9812</h1></button></td>
+                                    <td><button id = 16 type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9815</h1></button></td>
+                                    <td><button id = 17 type="button" class="btn btn-basic" onclick="go(this.id)"><h1>&#9816</h1></button></td>
+                                    <td><button id = 18 type="button" class="btn btn-default" onclick="go(this.id)"><h1>&#9814</h1></button></td>
+                                </tr>
+                                <tr style="color:white">
+                                    <td></td>
+                                    <td><b>a</b></td>
+                                    <td><b>b</b></td>
+                                    <td><b>c</b></td>
+                                    <td><b>d</b></td>
+                                    <td><b>e</b></td>
+                                    <td><b>f</b></td>
+                                    <td><b>g</b></td>
+                                    <td><b>h</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel panel-success bottom">
+                        <div class="panel-heading">
+                            <b>Whites Turn!</b>
+                        </div>
+                    </div>
+                    <br><br>
+                </div>
+            </div>
+        </div>
+        </center>
+    </body>
+</html>

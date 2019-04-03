@@ -1,0 +1,101 @@
+body{
+    background-color: gray;
+
+}
+div *{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.jumbotron{
+    width: 870px;
+    height: 800px;
+    text-align: center;
+    margin-top: 50px;
+    background-color: black;
+}
+.turnhightlight{
+    background: #5cb85c !important;
+    color: #fff;
+}
+#game{
+    max-height: 504px;
+    max-width: 504px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 20px auto;
+}
+.cellprefix{
+    width: 100%;
+    height: 100%;
+    max-height: 50px;
+    max-width: 50px;
+    float: left;
+    margin: 3px;
+    padding: 15px 0 0 20px;
+}
+.btn-default{
+    width: 100%;
+    height: 100%;
+    height: 85px;
+    width: 85px;
+    float: left;
+    margin: 3px;
+    transition: all 0.5s ease-in-out;
+    border-radius: 5px;
+    padding: 0 0 0 6px;
+    font-size: 30pt;
+    cursor: pointer;
+    z-index: 1;
+}
+.btn-basic{
+    width: 100%;
+    height: 100%;
+    height: 85px;
+    width: 85px;
+    float: left;
+    margin: 3px;
+    transition: all 0.5s ease-in-out;
+    border-radius: 5px;
+    padding: 0 0 0 6px;
+    font-size: 30pt;
+    cursor: pointer;
+    z-index: 1;
+   
+}
+
+
+.white_Value_pice{
+    width: 100%;
+    height: 100%;
+    height: 50px;
+    width: 50px;
+
+}
+.text-success{
+    font-family: 'Baloo Chettan', cursive;
+    font-size: 70px;
+}
+h1{
+    color: rgb(60, 179, 113);
+}
+.top{
+    width: 100%;
+    height: 100%;
+    height: 10px;
+    width: 870px;
+    margin-top: 20px;
+
+}
+.bottom{
+    width: 100%;
+    height: 100%;
+    height: 10px;
+    width: 870px;
+    margin-top: 5px;
+
+}
+.modal-dialog{
+    background-color: green;
+}
