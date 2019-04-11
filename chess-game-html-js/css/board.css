@@ -1,0 +1,77 @@
+div *{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+@font-face {
+    font-family:"Nishiki-teki";
+    src: url(nishiki-teki_3_51/nishiki-teki.ttf) format("truetype");
+}
+.turnhightlight{
+    background: #5cb85c !important;
+    color: #fff;
+}
+.btn-info{
+    background-color: rgb(255, 255, 255);
+}
+.btn-warning{
+    background-color: rgb(196, 196, 196);
+}
+.l{
+    width: 100%;
+    height: 100%;
+    height: 65px;
+    width: 65px;
+    float: left;
+    margin: 3px;
+    transition: all 0.5s ease-in-out;
+    border-radius: 3px;
+    padding: 0 0 0 6px;
+    font-size: 30pt;
+    cursor: pointer;
+    z-index: 1;
+    border: 0.5px solid #4140402a;
+}
+.white_Value_pice{
+    width: 100%;
+    height: 100%;
+    height: 50px;
+    width: 50px;
+
+}
+h1{
+    font-family: "Nishiki-teki";
+    font-size: 40px;
+    color: black;
+}
+.top{
+    width: 100%;
+    height: 100%;
+    height: 10px;
+    width: 870px;
+    margin-top: 20px;
+
+}
+.bottom{
+    width: 100%;
+    height: 100%;
+    height: 10px;
+    width: 870px;
+    margin-top: 5px;
+
+}
+.head{
+    margin-top: 50px;  
+}
+.card-body{
+    margin-top: 20px;
+}
+.k{
+    margin-top: 120px;
+}
+
+.bax{
+    margin-top: 90px;
+    border-radius: 4px;
+    padding: 0 0 0 6px;
+}
