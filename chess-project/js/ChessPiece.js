@@ -64,5 +64,5 @@ function getDirection(color) {
 }
 
 function rankUp(pos) {
-    
+    piecePos.get(pos).color
 }
