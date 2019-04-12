@@ -35,25 +35,19 @@ var piecePos = new Map([["a1", Piece.WHITE_ROOK], ["b1", Piece.WHITE_KNIGHT], ["
 // Calls functions to highlight valid and disable invalid moves
 function getMovementOptions(chessPiece, pos) {
 
-    switch(chessPiece.name) {
+    switch(chessPiece.name.substring(1)) {
 
-        case "wPawn": return movPawn("White", pos);
-        case "bPawn": return movPawn("Black", pos);
+        case "Pawn": return movPawn(chessPiece.color, pos);
 
-        case "wRook": return movRook("White", pos);
-        case "bRook": return movRook("Black", pos);
+        case "Rook": return movRook(chessPiece.color, pos);
 
-        case "wKnight": return movKnight("White", pos);
-        case "bKnight": return movKnight("Black", pos);
+        case "Knight": return movKnight(chessPiece.color, pos);
 
-        case "wBishop": return movBishop("White", pos);
-        case "bBishop": return movBishop("Black", pos);
+        case "Bishop": return movBishop(chessPiece.color, pos);
 
-        case "wQueen": return movQueen("White", pos);
-        case "bQueen": return movQueen("Black", pos);
+        case "Queen": return movQueen(chessPiece.color, pos);
 
-        case "wKing": return movKing("White", pos);
-        case "bKing": return movKing("Black", pos);
+        case "King": return movKing(chessPiece.color, pos);
 
         default: return new Array();
     }
@@ -64,5 +58,5 @@ function getDirection(color) {
 }
 
 function rankUp(pos) {
-    piecePos.get(pos).color
+    piecePos.get(pos).color;
 }
