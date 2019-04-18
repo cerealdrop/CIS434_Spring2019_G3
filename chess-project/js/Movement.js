@@ -6,9 +6,6 @@ var castleChkB = false;
 var castleQSB = "c8";
 var castleKSB = "g8";
 
-var posWK = "e1";
-var posBK = "e8";
-
 // gets pawn movement options
 function movPawn(clr, pos) {
 
@@ -16,7 +13,7 @@ function movPawn(clr, pos) {
     var row = parseInt(pos.substring(1));
     var v = row;
 
-    var incV = getDirection(clr);
+    var incV = getPawnDirection(clr);
     var dist = incV;
 
     if (row == (9 + 2 * dist) % 9)
@@ -32,18 +29,23 @@ function movPawn(clr, pos) {
                 if (h > 96 && h < 105) {
                     var id = String.fromCharCode(h) + v;
 
-                    if ((piecePos.has(id) && piecePos.get(id).color != clr) || canPassant(row, h)) // && !pinned()
+                    if (!inCheck(pieceArr[turn][0], id) && (piecePos.has(id) && piecePos.get(id).color != clr) || canPassant(row, h))
                         movs.push(id);
                 }
             }
         }
         var id = String.fromCharCode(col) + v;
 
-        if (!piecePos.has(id))
-            movs.push(id);
-        else
+        if (!piecePos.has(id)) {
+            if (!inCheck(pieceArr[turn][1], id))
+                movs.push(id);
+        } else {
             break;
+        }
     }
+    var pin = getPin(pos);
+    if (pin != "")
+        return pinnedPositions(movs, pos, pin);
     return movs;
 }
 
@@ -64,10 +66,11 @@ function movRook(clr, pos) {
             while (x > bounds[i] && x < bounds[i] + 9) {
                 var id = String.fromCharCode(Math.max(x, dim[(i + 1) % 2])) + Math.min(x, dim[(i + 1) % 2]);
 
-                if (!piecePos.has(id))
-                    movs.push(id);
-                else {
-                    if (piecePos.get(id).color != clr)
+                if (!piecePos.has(id)) {
+                    if (!inCheck(pieceArr[turn][1], id))
+                        movs.push(id);
+                } else {
+                    if (piecePos.get(id).color != clr && !inCheck(pieceArr[turn][1], id))
                         movs.push(id);
                     break;
                 }
@@ -75,6 +78,9 @@ function movRook(clr, pos) {
             }
         }
     }
+    var pin = getPin(pos);
+    if (pin != "")
+        return pinnedPositions(movs, pos, pin);
     return movs;
 }
 
@@ -99,13 +105,17 @@ function movKnight(clr, pos) {
 
                 if (h > 96 && h < 105) {
                     var id = String.fromCharCode(h) + v;
+                    var out = id + " " + piecePos.has(id);
 
-                    if (!piecePos.has(id) || piecePos.get(id).color != clr)
+                    if (!inCheck(pieceArr[turn][2], id) && (!piecePos.has(id) || piecePos.get(id).color != clr))
                         movs.push(id);
                 }
             }
         }
     }
+    var pin = getPin(pos);
+    if (pin != "")
+        return pinnedPositions(movs, pos, pin);
     return movs;
 }
 
@@ -126,10 +136,11 @@ function movBishop(clr, pos) {
             while (v > 0 && v < 9 && h > 96 && h < 105) {
                 var id = String.fromCharCode(h) + v;
 
-                if (!piecePos.has(id))
-                    movs.push(id);
-                else {
-                    if (piecePos.get(id).color != clr)
+                if (!piecePos.has(id)) {
+                    if (!inCheck(pieceArr[turn][3], id))
+                        movs.push(id);
+                } else {
+                    if (piecePos.has(id) && piecePos.get(id).color != clr && !inCheck(pieceArr[turn][3], id))
                         movs.push(id);
                     break;
                 }
@@ -138,6 +149,9 @@ function movBishop(clr, pos) {
             }
         }
     }
+    var pin = getPin(pos);
+    if (pin != "")
+        return pinnedPositions(movs, pos, pin);
     return movs;
 }
 
@@ -163,11 +177,12 @@ function movKing(clr, pos) {
                 if (h > 96 && h < 105) {
                     var id = String.fromCharCode(h) + v;
 
-                    if (id != pos && (!piecePos.has(id) || piecePos.get(id).color != clr))
+                    if (id != pos && (!piecePos.has(id) || piecePos.get(id).color != clr) && !inCheck(pieceArr[turn][5], id))
                         movs.push(id);
                 }
             }
         }
     }
-    return movs;
+    var cstl = castleMovement();
+    return movs.concat(cstl);
 }

@@ -13,9 +13,12 @@ const Piece = {
     BLACK_BISHOP: { name: "bBishop", icon: 9821, color: "Black", abbr: "B" },
     BLACK_QUEEN: { name: "bQueen", icon: 9819, color: "Black", abbr: "Q" },
     BLACK_KING: { name: "bKing", icon: 9818, color: "Black", abbr: "K" },
-    
-    getPiece : function(icon) { return this[Object.keys(this).find(key => this[key].icon === icon)]; }
 }
+
+const pieceArr = [[Piece.WHITE_PAWN, Piece.WHITE_ROOK, Piece.WHITE_KNIGHT, Piece.WHITE_BISHOP, Piece.WHITE_QUEEN, Piece.WHITE_KING],
+                  [Piece.BLACK_PAWN, Piece.BLACK_ROOK, Piece.BLACK_KNIGHT, Piece.BLACK_BISHOP, Piece.BLACK_QUEEN, Piece.BLACK_KING]];
+
+var kings = ["e1", "e8"];
 
 const clrDir = {
     White: 1,
@@ -35,28 +38,31 @@ var piecePos = new Map([["a1", Piece.WHITE_ROOK], ["b1", Piece.WHITE_KNIGHT], ["
 // Calls functions to highlight valid and disable invalid moves
 function getMovementOptions(chessPiece, pos) {
 
-    switch(chessPiece.name.substring(1)) {
+    switch(chessPiece.abbr) {
 
-        case "Pawn": return movPawn(chessPiece.color, pos);
+        case "P": return movPawn(chessPiece.color, pos);
 
-        case "Rook": return movRook(chessPiece.color, pos);
+        case "R": return movRook(chessPiece.color, pos);
 
-        case "Knight": return movKnight(chessPiece.color, pos);
+        case "N": return movKnight(chessPiece.color, pos);
 
-        case "Bishop": return movBishop(chessPiece.color, pos);
+        case "B": return movBishop(chessPiece.color, pos);
 
-        case "Queen": return movQueen(chessPiece.color, pos);
+        case "Q": return movQueen(chessPiece.color, pos);
 
-        case "King": return movKing(chessPiece.color, pos);
+        case "K": return movKing(chessPiece.color, pos);
 
         default: return new Array();
     }
 }
 
-function getDirection(color) {
+function getPawnDirection(color) {
     return clrDir[color];
 }
 
-function rankUp(pos) {
-    piecePos.get(pos).color;
+// not fully implemented yet
+function rankUp(pos, image) {
+    piecePos.delete(pos);
+    piecePos.set(pos, image);
+    document.getElementById(pos).innerHTML = image;
 }
