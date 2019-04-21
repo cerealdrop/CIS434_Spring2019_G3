@@ -87,8 +87,17 @@ function getPawnDirection(color) {
 }
 
 // not fully implemented yet
-function rankUp(pos, image) {
-    piecePos.delete(pos);
-    piecePos.set(pos, image);
-    document.getElementById(pos).innerHTML = image;
+function rankUp(piece, pos) {
+
+    var row = 1 + (((turn + 1) % 2) * 7);
+    if (piece.abbr == "P" && parseInt(pos.substring(1)) == row) {
+        ps = pos;
+        document.getElementById("Q").innerHTML = "<h1>" + String.fromCharCode(getPieceFromAbbr("Q", turnPlayer[turn]).icon) + "</h1>";
+        document.getElementById("B").innerHTML = "<h1>" + String.fromCharCode(getPieceFromAbbr("B", turnPlayer[turn]).icon) + "</h1>";
+        document.getElementById("R").innerHTML = "<h1>" + String.fromCharCode(getPieceFromAbbr("R", turnPlayer[turn]).icon) + "</h1>";
+        document.getElementById("N").innerHTML = "<h1>" + String.fromCharCode(getPieceFromAbbr("N", turnPlayer[turn]).icon) + "</h1>";
+        document.getElementById("overlay").style.display = "block";
+        return true;
+    }
+    return false;
 }

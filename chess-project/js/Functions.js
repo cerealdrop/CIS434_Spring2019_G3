@@ -84,7 +84,7 @@ function displayMoveNotation(mov, take, from, to, pass, prom) {
 
     // Notes that a pawn was promoted
     if (prom != "" && prom != null)
-        notation += "(" + prom + ")";
+        notation += "(" + prom.abbr + ")";
 
     // Special notation for castling
     if (mov.abbr == "K") {

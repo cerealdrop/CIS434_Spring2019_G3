@@ -3,6 +3,11 @@ var pos = "";
 var backColors = [];
 var movs = [];
 
+var beforePromote = "";
+var premoteFrom = null;
+var promoteAt = "";
+var promoteTake = null;
+
 function action(clicked_id) {
 
     // If no piece has been selected yet
@@ -35,19 +40,54 @@ function action(clicked_id) {
             piecePos.set(clicked_id, mov);
             piecePos.delete(pos);
 
-            // Checks for special moves
-            var pass = enPassant(mov, pos, clicked_id);
-            if (!castle(mov, clicked_id, pos))
-                setCheckIfTrue(clicked_id);
-            nextTurn();
+            // Because Javascript is single threaded, we must wait until after
+            // This thread is finished to resolve the rest of the execution
+            if (!rankUp(mov, clicked_id)) {
 
-            displayMoveNotation(mov, take, pos, clicked_id, pass);
+                // Checks for special moves
+                var pass = enPassant(mov, pos, clicked_id);
+                if (!castle(mov, clicked_id, pos))
+                    setCheckIfTrue(clicked_id);
+                nextTurn();
+
+                displayMoveNotation(mov, take, pos, clicked_id, pass);
+            } else {
+                // Global variables to preserve execution
+                beforePromote = pos;
+                promoteFrom = mov;
+                promoteAt = clicked_id;
+                promoteTake = take;
+            }
         }
         // Clear Selection
         document.getElementById(pos).style.backgroundColor = backColors.shift();
         clearHighlights();
         pos = "";
     }
+}
+
+function setPromotion(id) {
+
+    // Change the Pawn to the piece that is to be promoted to
+    piecePos.delete(promoteAt);
+    var image = document.getElementById(id).innerHTML;
+    document.getElementById(ps).innerHTML = image;
+
+    var piece = getPieceFromAbbr(id, turnPlayer[turn]);
+    piecePos.set(promoteAt, piece);
+
+    // Exit out of the overlay and then continue with standard execution
+    document.getElementById("overlay").style.display = "none";
+    setCheckIfTrue(promoteAt);
+    nextTurn();
+
+    displayMoveNotation(promoteFrom, promoteTake, beforePromote, promoteAt, false, piece);
+
+    // Reset promotion values
+    beforePromote = "";
+    promoteFrom = null;
+    promoteAt = "";
+    promoteTake = null;
 }
 
 // Undoes the last move made 
