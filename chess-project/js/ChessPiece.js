@@ -1,3 +1,4 @@
+// Enum Class containing the predefined values for every piece
 const Piece = {
 
     WHITE_PAWN: { name: "wPawn", icon: 9817, color: "White", abbr: "P" },
@@ -35,6 +36,30 @@ var piecePos = new Map([["a1", Piece.WHITE_ROOK], ["b1", Piece.WHITE_KNIGHT], ["
                         ["a8", Piece.BLACK_ROOK], ["b8", Piece.BLACK_KNIGHT], ["c8", Piece.BLACK_BISHOP], ["d8", Piece.BLACK_QUEEN],
                         ["e8", Piece.BLACK_KING], ["f8", Piece.BLACK_BISHOP], ["g8", Piece.BLACK_KNIGHT], ["h8", Piece.BLACK_ROOK]]);
 
+// Returns the piece associated with
+// the given abbreviation and color.
+function getPieceFromAbbr(abbr, color) {
+
+    var name = color.toUpperCase() + "_";
+    switch(abbr) {
+
+        case "P": return Piece[name + "PAWN"];
+
+        case "R": return Piece[name + "ROOK"];
+
+        case "N": return Piece[name + "KNIGHT"];
+
+        case "B": return Piece[name + "BISHOP"];
+
+        case "Q": return Piece[name + "QUEEN"];
+
+        case "K": return Piece[name + "KING"];
+
+        // Return undefined if not found
+        default: return undefined;
+    }
+}
+
 // Calls functions to highlight valid and disable invalid moves
 function getMovementOptions(chessPiece, pos) {
 
@@ -56,6 +81,7 @@ function getMovementOptions(chessPiece, pos) {
     }
 }
 
+// Gets direction of pawn movement
 function getPawnDirection(color) {
     return clrDir[color];
 }

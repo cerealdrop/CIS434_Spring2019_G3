@@ -34,6 +34,7 @@
                     <li class="nav-item">
                             <div class="btn-group" role="group" aria-label="Basic example">
                                     <button type="button" onClick="window.location.reload();" class="btn btn-success">New Game</button>
+                                    <button type="button" class="btn btn-success" onClick="undoLastMove()">Undo</button>
                             </div>
                     </li>
                   </ul>
@@ -181,18 +182,14 @@
                         <div id="box" class="collapse">
                           <div class="bax" style="height:500px;width:300px;overflow:auto;background-color:rgba(33, 37, 46, 0.911);color:white;scrollbar-base-color:gold;font-family:sans-serif;padding:10px;">     
                                             <div class="container">          
-                                                              <table class="table table-dark table-hover table-borderless">
+                                                              <table id="moveLog" class="table table-dark table-hover table-borderless">
                                                                 <thead>
                                                                   <tr>
-                                                                    <th>Pice</th>
-                                                                    <th>Square</th>
+                                                                    <th>White</th>
+                                                                    <th>Black</th>
                                                                   </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                  <tr>
-                                                                    <td>John</td>
-                                                                    <td>Doe</td>
-                                                                  </tr>
                                                                 </tbody>
                                                               </table>
                                                 </div>                      

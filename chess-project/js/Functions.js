@@ -1,24 +1,34 @@
+// Global variables stroing important information
 var turnPlayer = ["White", "Black"];
 var turn = 0;
 
 var actor = "";
 var kingPos = "";
 
-var cKing = [["c1", "g1"], ["c8", "g8"]];
-var cRook = [["a1", "h1"], ["a8", "h8"]];
+const cKing = [["c1", "g1"], ["c8", "g8"]];
+var kTurn = [0, 0];
+
+const cRook = [["a1", "h1"], ["a8", "h8"]];
+var rTurn = [[0, 0], [0, 0]];
 
 var passant = "z0";
 var pawnClr = "";
 
+// Sets the game state for the next turn
 function nextTurn() {
 
+    // Parsing text
     var text = document.getElementById("turn").innerHTML;
     var sIndex = text.indexOf("<b>") + 3;
     var eIndex = text.indexOf("</b>");
 
+    // Next turn
     turn = (turn + 1) % 2;
+
+    // Sets new text
     document.getElementById("turn").innerHTML = text.replace(text.substring(sIndex, eIndex), turnPlayer[turn] + "'s Turn");
 
+    // Displays current game state
     switch(gameState()) {
         case "check": {
             document.getElementById("state").innerHTML = "Check!";
@@ -37,6 +47,7 @@ function nextTurn() {
     }
 }
 
+// Gets the current board/game state
 function gameState() {
 
     // Can't be in check mate if not in check
@@ -56,9 +67,14 @@ function gameState() {
     return "mate";
 }
 
+// Logs the last move made in roughly reverse algebra notation
 function displayMoveNotation(mov, take, from, to, pass, prom) {
 
+    // Gets initial position
     var notation = mov.abbr + from;
+
+    // Checks if piece was taken and displays associated movement
+    // Special notation for en passant
     if (take != null) {
         notation += "x" + take.abbr + to;
     } else if (pass)
@@ -66,9 +82,11 @@ function displayMoveNotation(mov, take, from, to, pass, prom) {
     else
         notation += "-" + to;
 
+    // Notes that a pawn was promoted
     if (prom != "" && prom != null)
         notation += "(" + prom + ")";
 
+    // Special notation for castling
     if (mov.abbr == "K") {
         var diff = from.charCodeAt(0) - to.charCodeAt(0);
         if (diff == 2)
@@ -77,6 +95,7 @@ function displayMoveNotation(mov, take, from, to, pass, prom) {
             notation = "O-O";
     }
 
+    // Displays check and check mate
     switch(gameState()) {
         case "check": {
             notation += "!";
@@ -86,12 +105,32 @@ function displayMoveNotation(mov, take, from, to, pass, prom) {
             notation +="#";
         }
     }
-    console.log(notation);
+
+    // Appends the moves to the current Log
+    var rows = document.getElementById("moveLog").rows;
+    var row = rows[rows.length - 1];
+    if (row.cells.length > 1) {
+        var row = document.getElementById("moveLog").insertRow(-1);
+        var cell = row.insertCell(-1);
+        cell.innerHTML = notation;
+    } else {
+        var cell = row.insertCell(-1);
+        cell.innerHTML = notation;
+    }
 }
 
+// Self explanatory
 function isTurn(color) {
 
     return color == turnPlayer[turn];
+}
+
+// Gets highlight for current game state
+function getBackColor() {
+
+    if (kingPos == "")
+        return "#98FB98"; // Green (Not Check); 98FB98
+    return "#FF4949"; // Red (Check)
 }
 
 function highlightBackColors() {
@@ -102,29 +141,29 @@ function highlightBackColors() {
     }
 }
 
+// Self explanatory
 function clearHighlights() {
 
     while (movs.length > 0)
         document.getElementById(movs.pop()).style.backgroundColor = backColors.pop();
 }
 
+// Notifies the program that the next turn player is in check
 function setCheckIfTrue(pos) {
 
-    var king = pieceArr[(turn + 1) % 2][5].name;
+    var kPos = kings[(turn + 1) % 2];
     var moves = getMovementOptions(piecePos.get(pos), pos);
 
-    while (moves.length > 0) {
-        var loc = moves.pop();
-        if (piecePos.has(loc) && piecePos.get(loc).name == king) {
-            actor = pos;
-            kingPos = loc;
-            return;
-        }
+    if (moves.includes(kPos)) {
+        actor = pos;
+        kingPos = kPos;
+        return;
     }
     actor = "";
     kingPos = "";
 }
 
+// Checks if this move would put the turn player in check
 function inCheck(piece, pos) {
 
     // Checks movements from pos for each type of piece.
@@ -138,6 +177,7 @@ function inCheck(piece, pos) {
         kingPos = "";
         actor = "";
 
+        // Checks if the king would be put in check in this position
         for (var i = 0; i < 5; i++) {
             for (let mov of getMovementOptions(pieceArr[turn][i], pos)) {
 
@@ -169,6 +209,7 @@ function inCheck(piece, pos) {
     return kingPos != "" && actor != pos && !blocking(actor, kingPos, pos);
 }
 
+// Check if the piece is pinned
 function getPin(pos) {
 
     // A piece cannot be pinned if there is a piece between it and the king.
@@ -219,6 +260,7 @@ function pinnedPositions(movs, pos, pin) {
     piecePos.delete(pos);
     var validMovs = [];
 
+    // Checks for if the move is valid when pinned
     for (let mov of movs) {
         if (mov == pin || blocking(kings[turn], pin, mov))
             validMovs.push(mov);
@@ -255,23 +297,31 @@ function blocking(start, end, pos) {
     return false;
 }
 
+// Gets the possible ways the king can perform a castle
 function castleMovement() {
 
     var positions = [];
-    if (cKing[turn][0] != "" || cKing[turn][1] != "") {
+    // If the turn King has not yet moved
+    if (kTurn[turn] == 0) {
         var row = 1 + (turn * 7);
 
+        // Checks both initials rooks for the turn player
         for (var i = 0; i <= 1; i++) {
-            if (cKing[turn][i] != "") {
+            if (rTurn[turn][i] == 0) {
+
+                // Parse movement...
                 var dir = getDirection(cKing[turn][i], cRook[turn][i])[1]; // Column dir only
                 var col = 101; // Char code for 'e'
 
+                // Required to prevent infinite loops when getting movement options
+                // And if the king is currently in check
                 var kPos = kings[turn];
                 kings[turn] = String.fromCharCode(col - dir) + row;
 
                 var id = String.fromCharCode(col + dir) + row; // Adjacent pos to King
                 var movs = getMovementOptions(pieceArr[turn][1], cRook[turn][i]);
 
+                // Checks if the turn player can castle with this rook
                 if (movs.includes(id)) {
                     var legal = true;
 
@@ -293,14 +343,28 @@ function castleMovement() {
     return positions;
 }
 
+// Returns true if the player castles, false otherwise
 function castle(piece, to, from) {
 
-    // ascii value of "e" (King's column) = 101
+    // Uses the log to determine the number of turns that have passed
+    var turnNumber = document.getElementById("moveLog").rows.length - turn;
     var row = 1 + (turn * 7);
+
+    // Checks for if the piece is a king (or rook in else statement)
     if (piece.abbr == "K") {
+        kTurn[turn] = turnNumber;
+
+        // If the king has yet to move...
+        if (kTurn[turn] == 0)
+            kings[turn] = to;
+        else
+            return false;
+
+        // If the turn player castles, then change the rook to the corresponding position
         if (cKing[turn].includes(to)) {
             var oldPos = "a" + row;
             var newPos = "d" + row;
+
             if (cKing[turn].indexOf(to) == 1) {
                 oldPos = "h" + row;
                 newPos = "f" + row;
@@ -310,23 +374,31 @@ function castle(piece, to, from) {
 
             document.getElementById(oldPos).innerHTML = "";
             document.getElementById(newPos).innerHTML = "<h1>" + String.fromCharCode(pieceArr[turn][1].icon) + "</h1>";
+            setCheckIfTrue(newPos);
+
+            return true;
         }
-        cKing[turn] = ["", ""];
-        cRook[turn] = ["", ""];
+    // Can't castle with a rook that has already moved
     } else if (piece.abbr == "R" && cRook[turn].includes(from)) {
-            cKing[turn][cRook[turn].indexOf(from)] = "";
-            cRook[turn][cRook[turn].indexOf(from)] = "";
+        var index = cRook[turn].indexOf(from);
+        if (rTurn[turn][index] == 0)
+            rTurn[turn][index] = turnNumber;
     }
+    return false;
 }
 
 function canPassant(row, col) {
     return passant.charCodeAt(0) == col && row == passant.substring(1);
 }
 
+// Looks at the pawn movement, if any, for the current turn
+// Returns a boolean value for logging purposes
 function enPassant(piece, oldPos, newPos) {
 
     var pass = false;
     if (piece.abbr == "P") {
+
+        // Checks if the turn player performed en passant
         if (pawnClr != "" && piece.color != pawnClr) {
             var row = parseInt(newPos.substring(1)) + getPawnDirection(pawnClr);
 
@@ -336,6 +408,7 @@ function enPassant(piece, oldPos, newPos) {
                 pass = true;
             }
         }
+        // Checks if their opponent can peform en passant on their next move
         if (cmprPosition(oldPos, newPos, 2)) {
             passant = newPos;
             pawnClr = piece.color;
@@ -350,6 +423,7 @@ function enPassant(piece, oldPos, newPos) {
     return pass;
 }
 
+// Returns the approximate or exact (if in alignment) direction between 2 pieces
 function getDirection(first, second) {
 
     // Get difference in position between the first and second piece.
@@ -365,6 +439,7 @@ function getDirection(first, second) {
     return [rowDir, colDir];
 }
 
+// Only checks vertical difference for pawns
 function cmprPosition(oldPos, newPos, diff) {
     return Math.abs(parseInt(newPos.substring(1)) - parseInt(oldPos.substring(1))) == diff;
 }

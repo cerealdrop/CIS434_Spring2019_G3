@@ -1,11 +1,3 @@
-var castleChkW = false;
-var castleQSW = "c1";
-var castleKSW = "g1";
-
-var castleChkB = false;
-var castleQSB = "c8";
-var castleKSB = "g8";
-
 // gets pawn movement options
 function movPawn(clr, pos) {
 
@@ -29,6 +21,7 @@ function movPawn(clr, pos) {
                 if (h > 96 && h < 105) {
                     var id = String.fromCharCode(h) + v;
 
+                    // Checks if move is legal
                     if (!inCheck(pieceArr[turn][0], id) && (piecePos.has(id) && piecePos.get(id).color != clr) || canPassant(row, h))
                         movs.push(id);
                 }
@@ -36,6 +29,7 @@ function movPawn(clr, pos) {
         }
         var id = String.fromCharCode(col) + v;
 
+        // Checks if move is legal
         if (!piecePos.has(id)) {
             if (!inCheck(pieceArr[turn][1], id))
                 movs.push(id);
@@ -43,6 +37,7 @@ function movPawn(clr, pos) {
             break;
         }
     }
+    // Checks if piece is pinned
     var pin = getPin(pos);
     if (pin != "")
         return pinnedPositions(movs, pos, pin);
@@ -66,6 +61,7 @@ function movRook(clr, pos) {
             while (x > bounds[i] && x < bounds[i] + 9) {
                 var id = String.fromCharCode(Math.max(x, dim[(i + 1) % 2])) + Math.min(x, dim[(i + 1) % 2]);
 
+                // Checks if move is legal
                 if (!piecePos.has(id)) {
                     if (!inCheck(pieceArr[turn][1], id))
                         movs.push(id);
@@ -78,6 +74,7 @@ function movRook(clr, pos) {
             }
         }
     }
+    // Checks if piece is pinned
     var pin = getPin(pos);
     if (pin != "")
         return pinnedPositions(movs, pos, pin);
@@ -107,12 +104,14 @@ function movKnight(clr, pos) {
                     var id = String.fromCharCode(h) + v;
                     var out = id + " " + piecePos.has(id);
 
+                    // Checks if move is legal
                     if (!inCheck(pieceArr[turn][2], id) && (!piecePos.has(id) || piecePos.get(id).color != clr))
                         movs.push(id);
                 }
             }
         }
     }
+    // Checks if piece is pinned
     var pin = getPin(pos);
     if (pin != "")
         return pinnedPositions(movs, pos, pin);
@@ -136,6 +135,7 @@ function movBishop(clr, pos) {
             while (v > 0 && v < 9 && h > 96 && h < 105) {
                 var id = String.fromCharCode(h) + v;
 
+                // Checks if move is legal
                 if (!piecePos.has(id)) {
                     if (!inCheck(pieceArr[turn][3], id))
                         movs.push(id);
@@ -149,13 +149,14 @@ function movBishop(clr, pos) {
             }
         }
     }
+    // Checks if piece is pinned
     var pin = getPin(pos);
     if (pin != "")
         return pinnedPositions(movs, pos, pin);
     return movs;
 }
 
-// gets queen movement options
+// gets queen movement options using relative movements for rook and bishop
 function movQueen(color, pos) {
     return movRook(color, pos).concat(movBishop(color, pos));
 }
@@ -177,12 +178,14 @@ function movKing(clr, pos) {
                 if (h > 96 && h < 105) {
                     var id = String.fromCharCode(h) + v;
 
+                    // Checks if move is legal
                     if (id != pos && (!piecePos.has(id) || piecePos.get(id).color != clr) && !inCheck(pieceArr[turn][5], id))
                         movs.push(id);
                 }
             }
         }
     }
+    // Gets castle movement if any
     var cstl = castleMovement();
     return movs.concat(cstl);
 }
