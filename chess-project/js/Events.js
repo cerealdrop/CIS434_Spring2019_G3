@@ -40,6 +40,10 @@ function action(clicked_id) {
             piecePos.set(clicked_id, mov);
             piecePos.delete(pos);
 
+            // No longer in check if you were in check
+            actor = "";
+            kingPos = "";
+
             // Because Javascript is single threaded, we must wait until after
             // This thread is finished to resolve the rest of the execution
             if (!rankUp(mov, clicked_id)) {
@@ -58,11 +62,73 @@ function action(clicked_id) {
                 promoteAt = clicked_id;
                 promoteTake = take;
             }
-        }
+
+            // Clear Selection
+            document.getElementById(pos).style.backgroundColor = backColors.shift();
+            clearHighlights();
+            pos = "";
+
+            if (vsComputer && state != "mate" && state != "draw") {
+                minimaxRoot(3);
+            }
+        } else {
         // Clear Selection
         document.getElementById(pos).style.backgroundColor = backColors.shift();
         clearHighlights();
         pos = "";
+        }
+    }
+}
+
+function computerMove(prev, next) {
+
+    // Get the piece
+    var piece = piecePos.get(prev);
+    var row = 1 + (((turn + 1) % 2) * 7);
+
+    // Displays position changes on the board
+    document.getElementById(next).innerHTML = "<h1>" + String.fromCharCode(piece.icon) + "</h1>";
+    document.getElementById(prev).innerHTML = "";
+    
+    // Checks if a piece was taken this move, then
+    // Stores movement in board map
+    var take = null;
+    if (piecePos.has(next)) {
+        take = piecePos.get(next);
+        piecePos.delete(next);
+    }
+    piecePos.set(next, piece);
+    piecePos.delete(prev);
+
+    // No longer in check if you were in check
+    actor = "";
+    kingPos = "";
+
+    // Because Javascript is single threaded, we must wait until after
+    // This thread is finished to resolve the rest of the execution
+    if (piece.abbr != "P" || parseInt(pos.substring(1)) != row) {
+    
+        // Checks for special moves
+        var pass = enPassant(piece, prev, next);
+        if (!castle(piece, next, prev))
+            setCheckIfTrue(next);
+        nextTurn();
+    
+        displayMoveNotation(piece, take, prev, next, pass);
+    } else {
+
+        // Computer always changes the Pawn to a Queen
+        document.getElementById(next).innerHTML = "<h1>" + String.fromCharCode(getPieceFromAbbr("Q", turnPlayer[turn]).icon) + "</h1>";
+        piecePos.delete(next);
+
+        var queen = getPieceFromAbbr("Q", turnPlayer[turn]);
+        piecePos.set(next, queen);
+
+        // Standard Execution
+        setCheckIfTrue(next);
+        nextTurn();
+    
+        displayMoveNotation(piece, take, prev, next, false, queen);
     }
 }
 
@@ -88,6 +154,13 @@ function setPromotion(id) {
     promoteFrom = null;
     promoteAt = "";
     promoteTake = null;
+}
+
+// For against AI only
+function undoLastTurn() {
+
+    undoLastMove();
+    undoLastMove();
 }
 
 // Undoes the last move made 
@@ -238,7 +311,7 @@ function undoLastMove() {
                 setCheckIfTrue(to);
             }
             // No difference between next and previous turns (same player)
-            nextTurn();
+            nextTurn(); // Don't want to check minimax when undoing a move
         }
     }
 }

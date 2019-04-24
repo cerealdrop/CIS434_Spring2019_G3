@@ -1,7 +1,10 @@
 // Global variables stroing important information
+var vsComputer = true;
+
 var turnPlayer = ["White", "Black"];
 var turn = 0;
 
+var state = "";
 var actor = "";
 var kingPos = "";
 
@@ -29,7 +32,8 @@ function nextTurn() {
     document.getElementById("turn").innerHTML = text.replace(text.substring(sIndex, eIndex), turnPlayer[turn] + "'s Turn");
 
     // Displays current game state
-    switch(gameState()) {
+    state = gameState();
+    switch(state) {
         case "check": {
             document.getElementById("state").innerHTML = "Check!";
             break;
@@ -352,12 +356,12 @@ function castle(piece, to, from) {
 
     // Checks for if the piece is a king (or rook in else statement)
     if (piece.abbr == "K") {
+        kings[turn] = to;
 
         // If the king has yet to move...
-        if (kTurn[turn] == 0) {
+        if (kTurn[turn] == 0)
             kTurn[turn] = turnNumber;
-            kings[turn] = to;
-        } else
+        else
             return false;
 
         // If the turn player castles, then change the rook to the corresponding position
