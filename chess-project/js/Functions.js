@@ -141,7 +141,11 @@ function highlightBackColors() {
 
     for (var i = 0; i < movs.length; i ++) {
         backColors.push(document.getElementById(movs[i]).style.backgroundColor);
-        document.getElementById(movs[i]).style.backgroundColor = "#BFFFFE";
+
+        if (piecePos.get(pos).abbr == "K" && cKing[turn].includes(movs[i]))
+            document.getElementById(movs[i]).style.backgroundColor = "#FF70D5";
+        else
+            document.getElementById(movs[i]).style.backgroundColor = "#BFFFFE";
     }
 }
 

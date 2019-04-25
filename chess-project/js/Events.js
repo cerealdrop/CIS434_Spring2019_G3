@@ -8,6 +8,12 @@ var premoteFrom = null;
 var promoteAt = "";
 var promoteTake = null;
 
+function setPlayer2() {
+
+    vsComputer = document.getElementById("player2").innerHTML.includes("AI");
+    vsComputer = false;
+}
+
 function action(clicked_id) {
 
     // If no piece has been selected yet
@@ -17,9 +23,8 @@ function action(clicked_id) {
             pos = clicked_id;
 
             backColors.push(document.getElementById(pos).style.backgroundColor);
-            document.getElementById(pos).style.backgroundColor = getBackColor();
-
             movs = getMovementOptions(piecePos.get(pos), pos);
+            document.getElementById(pos).style.backgroundColor = getBackColor(pos, movs);
             highlightBackColors();
         }
     } else {
