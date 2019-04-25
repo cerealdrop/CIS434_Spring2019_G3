@@ -1,5 +1,5 @@
 // Global variables stroing important information
-var vsComputer = true;
+var vsComputer = false;
 
 var turnPlayer = ["White", "Black"];
 var turn = 0;
