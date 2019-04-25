@@ -6,14 +6,14 @@ const Piece = {
     WHITE_KNIGHT: { name: "wKnight", icon: 9816, color: "White", abbr: "N", value: 3 },
     WHITE_BISHOP: { name: "wBishop", icon: 9815, color: "White", abbr: "B", value: 3 },
     WHITE_QUEEN: { name: "wQueen", icon: 9813, color: "White", abbr: "Q", value: 9 },
-    WHITE_KING: { name: "wKing", icon: 9812, color: "White", abbr: "K", value: 90 },
+    WHITE_KING: { name: "wKing", icon: 9812, color: "White", abbr: "K", value: 4 },
 
     BLACK_PAWN: { name: "bPawn", icon: 9823, color: "Black", abbr: "P", value: -1 },
     BLACK_ROOK: { name: "bRook", icon: 9820, color: "Black", abbr: "R", value: -5 },
     BLACK_KNIGHT: { name: "bKnight", icon: 9822, color: "Black", abbr: "N", value: -3 },
     BLACK_BISHOP: { name: "bBishop", icon: 9821, color: "Black", abbr: "B", value: -3 },
     BLACK_QUEEN: { name: "bQueen", icon: 9819, color: "Black", abbr: "Q", value: -9 },
-    BLACK_KING: { name: "bKing", icon: 9818, color: "Black", abbr: "K", value: -90 },
+    BLACK_KING: { name: "bKing", icon: 9818, color: "Black", abbr: "K", value: -4 },
 }
 
 const pieceArr = [[Piece.WHITE_PAWN, Piece.WHITE_ROOK, Piece.WHITE_KNIGHT, Piece.WHITE_BISHOP, Piece.WHITE_QUEEN, Piece.WHITE_KING],

@@ -62,7 +62,7 @@ function action(clicked_id) {
 
                 // Must be done after entire move is completed
                 if (vsComputer && state != "mate" && state != "draw") {
-                    minimaxRoot(4);
+                    minimaxRoot(3);
                 }
             } else {
                 // Global variables to preserve execution
@@ -158,7 +158,7 @@ function setPromotion(id) {
 
     // Must be done after entire move is completed
     if (vsComputer && state != "mate" && state != "draw") {
-        minimaxRoot(4);
+        minimaxRoot(3);
     }
 }
 

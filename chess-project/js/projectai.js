@@ -9,7 +9,7 @@
     // Computer will always be black
     // Black minimizes, White maximizes
 var positionCount = 0;
-var board = [];
+var board = new Array(8);
 var d = "";
 
 var minimaxRoot = function(depth) {
@@ -39,11 +39,6 @@ var minimaxRoot = function(depth) {
 				break;
         }
     }
-    console.log("AI Move: (time, count, ratio)");
-    var moveTime = (new Date().getTime() - d);
-    console.log(positionCount);
-    console.log((positionCount * 1000) / moveTime);
-    console.log();
     computerMove(bestMoveFound[0], bestMoveFound[1]);
 
 	board = new Array();
@@ -107,7 +102,7 @@ var minimax = function (depth, alpha, beta, isMaximisingPlayer) {
 function genBoard() {
 
 	for (var i = 0; i < 8; i++) {
-		board[i] = [];
+		board[i] = new Array(8);
 		for (var j = 0; j < 8; j++) {
 			board[i][j] = 0;
 		}
@@ -118,14 +113,16 @@ function genBoard() {
 	kingPos = "";
 	actor = "";
 
-	var c= 0;
 	for (let piece of Array.from(piecePos)) {
 		if (piece[1].color != turnPlayer[turn])
 			turn = (turn + 1) % 2;
 
+		var row = parseInt(piece[0].substring(1)) - 1;
+		var col = piece[0].charCodeAt(0) - 97;
+		board[row][col] += piece[1].value;
 		for (let mov of getMovementOptions(piece[1], piece[0])) {
-			var row = parseInt(mov.substring(1)) - 1;
-			var col = mov.charCodeAt(0) - 97;
+			row = parseInt(mov.substring(1)) - 1;
+			col = mov.charCodeAt(0) - 97;
 			board[row][col] += piece[1].value;
 		}
 	}
@@ -139,11 +136,6 @@ function genBoard() {
 		    for (let piece of Array.from(piecePos)) {
                 x = piece[0].charCodeAt(0) - 97; //col
                 y = parseInt(piece[0].substring(1)) - 1; //row
-                if (isNaN(x) || isNaN(y)) {
-                    console.log(piecePos);
-                    console.log(piece[0]);
-                    console.log(piece[1]);
-                }
 		        totalEvaluation = totalEvaluation + getPieceValue(piece[1], x ,y);
 		    }
 		    return totalEvaluation;
@@ -258,6 +250,6 @@ function genBoard() {
 		        throw "Unknown piece type: " + piece.abbr;
 			};
 			//return piece.value * 10 + board[y][x] + Math.pow(-1, turn) * getAbsoluteValue(piece, piece.color === 'White', x ,y);
-		    var absoluteValue = getAbsoluteValue(piece, piece.color === 'White', x ,y);
+		    var absoluteValue = Math.pow(-1, turn) * board[y][x] / 5.0 + getAbsoluteValue(piece, piece.color === 'White', x ,y);
 		    return piece.color === 'White' ? -absoluteValue : absoluteValue;
         };
