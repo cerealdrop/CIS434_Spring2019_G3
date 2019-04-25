@@ -44,17 +44,26 @@ function action(clicked_id) {
             actor = "";
             kingPos = "";
 
+            // Clear Selection
+            document.getElementById(pos).style.backgroundColor = backColors.shift();
+            clearHighlights();
+
             // Because Javascript is single threaded, we must wait until after
             // This thread is finished to resolve the rest of the execution
             if (!rankUp(mov, clicked_id)) {
 
                 // Checks for special moves
                 var pass = enPassant(mov, pos, clicked_id);
-                if (!castle(mov, clicked_id, pos))
-                    setCheckIfTrue(clicked_id);
+                castle(mov, clicked_id, pos);
+                    setCheckIfTrue();
                 nextTurn();
 
                 displayMoveNotation(mov, take, pos, clicked_id, pass);
+
+                // Must be done after entire move is completed
+                if (vsComputer && state != "mate" && state != "draw") {
+                    minimaxRoot(4);
+                }
             } else {
                 // Global variables to preserve execution
                 beforePromote = pos;
@@ -62,20 +71,12 @@ function action(clicked_id) {
                 promoteAt = clicked_id;
                 promoteTake = take;
             }
-
+            pos = "";
+        } else {
             // Clear Selection
             document.getElementById(pos).style.backgroundColor = backColors.shift();
             clearHighlights();
             pos = "";
-
-            if (vsComputer && state != "mate" && state != "draw") {
-                minimaxRoot(3);
-            }
-        } else {
-        // Clear Selection
-        document.getElementById(pos).style.backgroundColor = backColors.shift();
-        clearHighlights();
-        pos = "";
         }
     }
 }
@@ -106,12 +107,12 @@ function computerMove(prev, next) {
 
     // Because Javascript is single threaded, we must wait until after
     // This thread is finished to resolve the rest of the execution
-    if (piece.abbr != "P" || parseInt(pos.substring(1)) != row) {
+    if (piece.abbr != "P" || parseInt(next.substring(1)) != row) {
     
         // Checks for special moves
         var pass = enPassant(piece, prev, next);
         if (!castle(piece, next, prev))
-            setCheckIfTrue(next);
+            setCheckIfTrue();
         nextTurn();
     
         displayMoveNotation(piece, take, prev, next, pass);
@@ -125,7 +126,7 @@ function computerMove(prev, next) {
         piecePos.set(next, queen);
 
         // Standard Execution
-        setCheckIfTrue(next);
+        setCheckIfTrue();
         nextTurn();
     
         displayMoveNotation(piece, take, prev, next, false, queen);
@@ -144,7 +145,7 @@ function setPromotion(id) {
 
     // Exit out of the overlay and then continue with standard execution
     document.getElementById("overlay").style.display = "none";
-    setCheckIfTrue(promoteAt);
+    setCheckIfTrue();
     nextTurn();
 
     displayMoveNotation(promoteFrom, promoteTake, beforePromote, promoteAt, false, piece);
@@ -154,6 +155,11 @@ function setPromotion(id) {
     promoteFrom = null;
     promoteAt = "";
     promoteTake = null;
+
+    // Must be done after entire move is completed
+    if (vsComputer && state != "mate" && state != "draw") {
+        minimaxRoot(4);
+    }
 }
 
 // For against AI only
@@ -275,12 +281,11 @@ function undoLastMove() {
                     piecePos.delete("d" + prevRow);
                 }
             }
-            // Can't perform en passant nor be put in check until at least turn 2
             // Resets the board/game state to the previous move
             // Parses logging information as shown previously
             rows = document.getElementById("moveLog").rows;
             var curRow = 1 + (turn * 7);
-            if (rows.length > 2) {
+            if (rows.length > 1) { // caused error when at 2
                 cells = rows[rows.length - 1].cells;
                 log = cells[cells.length - 1].innerHTML;
 
@@ -308,7 +313,10 @@ function undoLastMove() {
                         pawnClr = "";
                     }
                 }
-                setCheckIfTrue(to);
+                // No longer in check if you were in check
+                actor = "";
+                kingPos = "";
+                setCheckIfTrue();
             }
             // No difference between next and previous turns (same player)
             nextTurn(); // Don't want to check minimax when undoing a move

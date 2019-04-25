@@ -22,7 +22,7 @@ function movPawn(clr, pos) {
                     var id = String.fromCharCode(h) + v;
 
                     // Checks if move is legal
-                    if (!inCheck(pieceArr[turn][0], id) && (piecePos.has(id) && piecePos.get(id).color != clr) || canPassant(row, h))
+                    if ((piecePos.has(id) && piecePos.get(id).color != clr || canPassant(row, h)) && inCheck(pieceArr[turn][0], id) == "")
                         movs.push(id);
                 }
             }
@@ -31,7 +31,7 @@ function movPawn(clr, pos) {
 
         // Checks if move is legal
         if (!piecePos.has(id)) {
-            if (!inCheck(pieceArr[turn][1], id))
+            if (inCheck(pieceArr[turn][0], id) == "")
                 movs.push(id);
         } else {
             break;
@@ -63,10 +63,10 @@ function movRook(clr, pos) {
 
                 // Checks if move is legal
                 if (!piecePos.has(id)) {
-                    if (!inCheck(pieceArr[turn][1], id))
+                    if (inCheck(pieceArr[turn][1], id) == "")
                         movs.push(id);
                 } else {
-                    if (piecePos.get(id).color != clr && !inCheck(pieceArr[turn][1], id))
+                    if (piecePos.get(id).color != clr && inCheck(pieceArr[turn][1], id) == "")
                         movs.push(id);
                     break;
                 }
@@ -105,7 +105,7 @@ function movKnight(clr, pos) {
                     var out = id + " " + piecePos.has(id);
 
                     // Checks if move is legal
-                    if (!inCheck(pieceArr[turn][2], id) && (!piecePos.has(id) || piecePos.get(id).color != clr))
+                    if (inCheck(pieceArr[turn][2], id) == "" && (!piecePos.has(id) || piecePos.get(id).color != clr))
                         movs.push(id);
                 }
             }
@@ -137,10 +137,10 @@ function movBishop(clr, pos) {
 
                 // Checks if move is legal
                 if (!piecePos.has(id)) {
-                    if (!inCheck(pieceArr[turn][3], id))
+                    if (inCheck(pieceArr[turn][3], id) == "")
                         movs.push(id);
                 } else {
-                    if (piecePos.has(id) && piecePos.get(id).color != clr && !inCheck(pieceArr[turn][3], id))
+                    if (piecePos.has(id) && piecePos.get(id).color != clr && inCheck(pieceArr[turn][3], id) == "")
                         movs.push(id);
                     break;
                 }
@@ -179,7 +179,7 @@ function movKing(clr, pos) {
                     var id = String.fromCharCode(h) + v;
 
                     // Checks if move is legal
-                    if (id != pos && (!piecePos.has(id) || piecePos.get(id).color != clr) && !inCheck(pieceArr[turn][5], id))
+                    if (id != pos && (!piecePos.has(id) || piecePos.get(id).color != clr) && inCheck(pieceArr[turn][5], id) == "")
                         movs.push(id);
                 }
             }

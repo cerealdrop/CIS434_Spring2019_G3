@@ -57,14 +57,14 @@ function gameState() {
     // Can't be in check mate if not in check
     // But can draw
     if (kingPos == "") {
-        for (let piece of piecePos) {
+        for (let piece of Array.from(piecePos)) {
             if (piece[1].color == turnPlayer[turn] && getMovementOptions(piece[1], piece[0]).length > 0)
                 return "";
         }
         return "draw";
     }
     // Check each piece for the turn player at the start of turn if in check state.
-    for (let piece of piecePos) {
+    for (let piece of Array.from(piecePos)) {
         if (piece[1].color == turnPlayer[turn] && getMovementOptions(piece[1], piece[0]).length > 0)
             return "check";
     }
@@ -153,18 +153,21 @@ function clearHighlights() {
 }
 
 // Notifies the program that the next turn player is in check
-function setCheckIfTrue(pos) {
+function setCheckIfTrue() {
 
-    var kPos = kings[(turn + 1) % 2];
-    var moves = getMovementOptions(piecePos.get(pos), pos);
+    turn = (turn + 1) % 2;
+    var kPos = kings[turn];
+    var chk = inCheck(piecePos.get(kPos), kPos);
 
-    if (moves.includes(kPos)) {
-        actor = pos;
+    if (chk != "") {
+        actor = chk;
         kingPos = kPos;
+        turn = (turn + 1) % 2;
         return;
     }
     actor = "";
     kingPos = "";
+    turn = (turn + 1) % 2;
 }
 
 // Checks if this move would put the turn player in check
@@ -175,8 +178,11 @@ function inCheck(piece, pos) {
     if (piece.abbr == "K") {
         var opp = pieceArr[(turn + 1) % 2];
 
-        // Need to disable check temporarily so that full movement can be checked
-        var k = kingPos;
+        // Need to disable check and king position temporarily
+        // so that full movement can be checked
+        var k = kings[turn];
+        piecePos.delete(k);
+
         var a = actor;
         kingPos = "";
         actor = "";
@@ -184,16 +190,21 @@ function inCheck(piece, pos) {
         // Checks if the king would be put in check in this position
         for (var i = 0; i < 5; i++) {
             for (let mov of getMovementOptions(pieceArr[turn][i], pos)) {
-
-                if (piecePos.has(mov) && (piecePos.get(mov).name == opp[i].name)) {
-                    kingPos = k;
-                    actor = a;
-                    return true;
+                if (piecePos.has(mov) && piecePos.get(mov).name == opp[i].name) {
+                    piecePos.set(k, piece);
+                    if (a != "") {
+                        kingPos = k;
+                        actor = a;
+                    }
+                    return mov;
                 }
             }
         }
-        kingPos = k;
-        actor = a;
+        piecePos.set(k, piece);
+        if (a != "") {
+            kingPos = k;
+            actor = a;
+        }
 
         var row = parseInt(pos.substring(1));
         var col = pos.charCodeAt(0);
@@ -204,13 +215,16 @@ function inCheck(piece, pos) {
                 var id = String.fromCharCode(h) + v;
     
                 if (piecePos.has(id) && piecePos.get(id) == opp[5].name)
-                    return true;
+                    return id;
             }
         }
-        return false;
+        return "";
     }
-    // Return false if not in check, or new position would take or block the actor checking the king.
-    return kingPos != "" && actor != pos && !blocking(actor, kingPos, pos);
+    // Return "" if not in check, or new position would take or block the actor checking the king.
+    // Actor's position otherwise
+    if (kingPos != "" && actor != pos && !blocking(actor, kingPos, pos))
+        return actor;
+    return "";
 }
 
 // Check if the piece is pinned
@@ -223,8 +237,8 @@ function getPin(pos) {
     // Need to check if piece is in line with king first.
     var r = Math.abs(parseInt(pos.substring(1)) - parseInt(kings[turn].substring(1)));
     var c = Math.abs(pos.charCodeAt(0) - kings[turn].charCodeAt(0));
+
     var opp = (turn + 1) % 2;
-    
     if (piecePos.has(pos) && (r == 0 || c == 0 || r == c) && !blocking(pos, kings[turn], null)) {
     
         // Get direction of movement
@@ -277,26 +291,32 @@ function pinnedPositions(movs, pos, pin) {
 // False otherwise.
 function blocking(start, end, pos) {
 
-    // Get direction of movement
-    var dir = getDirection(start, end);
+    // Need to check if piece is in line with king first.
+    var r = Math.abs(parseInt(start.substring(1)) - parseInt(end.substring(1)));
+    var c = Math.abs(start.charCodeAt(0) - end.charCodeAt(0));
 
-    // Initial position to check
-    var row = parseInt(start.substring(1)) + dir[0];
-    var col = start.charCodeAt(0) + dir[1];
+    if (r == 0 || c == 0 || r == c) {
+        // Get direction of movement
+        var dir = getDirection(start, end);
 
-    var step = String.fromCharCode(col) + row;
-    while (step != end) {
+        // Initial position to check
+        var row = parseInt(start.substring(1)) + dir[0];
+        var col = start.charCodeAt(0) + dir[1];
 
-        // If this piece or another piece will be in the way
-        if (step == pos || piecePos.has(step))
-            return true;
-
-        // Increment/Decrement
-        row += dir[0];
-        col += dir[1];
-
-        // Check next position.
         var step = String.fromCharCode(col) + row;
+        while (step != end) {
+
+            // If this piece or another piece will be in the way
+            if (step == pos || piecePos.has(step))
+                return true;
+
+            // Increment/Decrement
+            row += dir[0];
+            col += dir[1];
+
+            // Check next position.
+            var step = String.fromCharCode(col) + row;
+        }
     }
     return false;
 }
@@ -320,7 +340,11 @@ function castleMovement() {
                 // Required to prevent infinite loops when getting movement options
                 // And if the king is currently in check
                 var kPos = kings[turn];
-                kings[turn] = String.fromCharCode(col - dir) + row;
+                var ps = String.fromCharCode(col - dir) + row;
+                var pc = "";
+                if (piecePos.has(ps))
+                    pc = piecePos.get(ps);
+                kings[turn] = ps;
 
                 var id = String.fromCharCode(col + dir) + row; // Adjacent pos to King
                 var movs = getMovementOptions(pieceArr[turn][1], cRook[turn][i]);
@@ -332,7 +356,7 @@ function castleMovement() {
                     for (var j = 0; j <= 2; j++) {
                         id = String.fromCharCode(col + (dir * j)) + row;
 
-                        if (inCheck(pieceArr[turn][5], id)) {
+                        if (inCheck(pieceArr[turn][5], id) != "") {
                             legal = false;
                             break;
                         }
@@ -341,6 +365,9 @@ function castleMovement() {
                         positions.push(cKing[turn][i]);
                 }
                 kings[turn] = kPos;
+                piecePos.delete(ps);
+                if (pc != "")
+                    piecePos.set(ps, pc);
             }
         }
     }
@@ -378,7 +405,6 @@ function castle(piece, to, from) {
 
             document.getElementById(oldPos).innerHTML = "";
             document.getElementById(newPos).innerHTML = "<h1>" + String.fromCharCode(pieceArr[turn][1].icon) + "</h1>";
-            setCheckIfTrue(newPos);
 
             return true;
         }
