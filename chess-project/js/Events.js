@@ -170,7 +170,8 @@ function setPromotion(id) {
 function undoLastTurn() {
 
     undoLastMove();
-    undoLastMove();
+    if (vsComputer)
+        undoLastMove();
 }
 
 // Undoes the last move made 
