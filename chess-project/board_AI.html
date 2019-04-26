@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Chess Game</title>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="css/botstrap_css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/board.css">
+
+    </head>
+
+    <body onLoad="setPlayer2()">            
+        <!-- Only need to use center tag once -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+                <a class="navbar-brand text-light" href="#"><b>Chess Game</b></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                  <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a href="./board_Player.html" class="btn btn-success" role="button">Player VS Player</a>
+                            <button type="button" onClick="window.location.reload();" class="btn btn-success">New Game</button>
+                            <button type="button" class="btn btn-success" onClick="undoLastTurn()">Undo Turn</button>
+                        </div>
+                    </li>
+                  </ul>
+                </div>
+        </nav>
+       
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-6 col-md-2">
+                    <center>
+                        <div class="card k bg-light mb-3" style="max-width: 15rem;">
+                        <div id="turn" class="card-header bg-success text-white"><b>White's Turn</b></div>
+                        <div class="card-body">
+                          <h5 id="state" class="card-title"></h5>
+                        </div>
+                        </div>
+                    </center>
+                    <center>
+                        <button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#box"><b>Fen Stats</b></button>
+                    </center>
+            
+                </div>
+                <div class="col-6 col-md-8">
+                 
+                    <button id="player2" type="button" class="btn head btn-danger btn-lg"><b>AI(Black) VS Player(White)</b></button>
+                        <div class="card-body bg-light" style="width: 100%; max-width:650px;">
+                            <div class="card-header">     
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td style="color:black"><b>8</b></td>
+                                    <td><button id = "a8" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9820</h1></button></td>
+                                    <td><button id = "b8" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9822</h1></button></td>
+                                    <td><button id = "c8" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9821</h1></button></td>
+                                    <td><button id = "d8" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9819</h1></button></td>
+                                    <td><button id = "e8" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9818</h1></button></td>
+                                    <td><button id = "f8" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9821</h1></button></td>
+                                    <td><button id = "g8" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9822</h1></button></td>
+                                    <td><button id = "h8" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9820</h1></button></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:black"><b>7</b></td>
+                                    <td><button id = "a7" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9823</h1></button></td>
+                                    <td><button id = "b7" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9823</h1></button></td>
+                                    <td><button id = "c7" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9823</h1></button></td>
+                                    <td><button id = "d7" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9823</h1></button></td>
+                                    <td><button id = "e7" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9823</h1></button></td>
+                                    <td><button id = "f7" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9823</h1></button></td>
+                                    <td><button id = "g7" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9823</h1></button></td>
+                                    <td><button id = "h7" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9823</h1></button></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:black"><b>6</b></td>
+                                    <td><button id = "a6" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                    <td><button id = "b6" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                    <td><button id = "c6" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                    <td><button id = "d6" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                    <td><button id = "e6" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                    <td><button id = "f6" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                    <td><button id = "g6" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                    <td><button id = "h6" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:black"><b>5</b></td>
+                                    <td><button id = "a5" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                    <td><button id = "b5" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                    <td><button id = "c5" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                    <td><button id = "d5" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                    <td><button id = "e5" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                    <td><button id = "f5" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                    <td><button id = "g5" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                    <td><button id = "h5" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:black"><b>4</b></td>
+                                    <td><button id = "a4" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                    <td><button id = "b4" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                    <td><button id = "c4" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                    <td><button id = "d4" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                    <td><button id = "e4" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                    <td><button id = "f4" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                    <td><button id = "g4" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                    <td><button id = "h4" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                </tr>    
+                                <tr>
+                                    <td style="color:black"><b>3</b></td>
+                                    <td><button id = "a3" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                    <td><button id = "b3" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                    <td><button id = "c3" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                    <td><button id = "d3" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                    <td><button id = "e3" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                    <td><button id = "f3" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                    <td><button id = "g3" type="button" class="btn l btn-warning" onclick="action(this.id)"></button></td>
+                                    <td><button id = "h3" type="button" class="btn l btn-info" onclick="action(this.id)"></button></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:black"><b>2</b></td>
+                                    <td><button id = "a2" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9817</h1></button></td>
+                                    <td><button id = "b2" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9817</h1></button></td>
+                                    <td><button id = "c2" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9817</h1></button></td>
+                                    <td><button id = "d2" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9817</h1></button></td>
+                                    <td><button id = "e2" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9817</h1></button></td>
+                                    <td><button id = "f2" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9817</h1></button></td>
+                                    <td><button id = "g2" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9817</h1></button></td>
+                                    <td><button id = "h2" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9817</h1></button></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:black"><b>1</b></td>
+                                    <td><button id = "a1" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9814</h1></button></td>
+                                    <td><button id = "b1" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9816</h1></button></td>
+                                    <td><button id = "c1" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9815</h1></button></td>
+                                    <td><button id = "d1" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9813</h1></button></td>
+                                    <td><button id = "e1" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9812</h1></button></td>
+                                    <td><button id = "f1" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9815</h1></button></td>
+                                    <td><button id = "g1" type="button" class="btn l btn-warning" onclick="action(this.id)"><h1>&#9816</h1></button></td>
+                                    <td><button id = "h1" type="button" class="btn l btn-info" onclick="action(this.id)"><h1>&#9814</h1></button></td>
+                                </tr>
+                                <tr style="color:black">
+                                    <td></td>
+                                    <td><b><center>a</center></b></td>
+                                    <td><b><center>b</center></b></td>
+                                    <td><b><center>c</center></b></td>
+                                    <td><b><center>d</center></b></td>
+                                    <td><b><center>e</center></b></td>
+                                    <td><b><center>f</center></b></td>
+                                    <td><b><center>g</center></b></td>
+                                    <td><b><center>h</center></b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+              
+                        <div id="box" class="collapse">
+                          <div class="bax" style="height:500px;width:300px;overflow:auto;background-color:rgba(33, 37, 46, 0.911);color:white;scrollbar-base-color:gold;font-family:sans-serif;padding:10px;">     
+                                            <div class="container">          
+                                                              <table id="moveLog" class="table table-dark table-hover table-borderless">
+                                                                <thead>
+                                                                  <tr>
+                                                                    <th>White</th>
+                                                                    <th>Black</th>
+                                                                  </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                </tbody>
+                                                              </table>
+                                                </div>                      
+                                </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Overlay Test -->
+        <div id="overlay">
+          <button id="Q" type="button" class="btn l btn-info" onclick="setPromotion(this.id)"></button>
+          <button id="B" type="button" class="btn l btn-info" onclick="setPromotion(this.id)"></button>
+          <button id="R" type="button" class="btn l btn-info" onclick="setPromotion(this.id)"></button>
+          <button id="N" type="button" class="btn l btn-info" onclick="setPromotion(this.id)"></button>
+        </div>
+
+        <script src="js/Jq.js"></script>
+        <script src="js/node_modules/popper.js/dist/umd/popper.min.js"></script>
+        <script src="js/Bootstrp_js/bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="js/Functions.js"></script>
+        <script type="text/javascript" src="js/ChessPiece.js"></script>
+        <script type="text/javascript" src="js/Movement.js"></script>
+        <script type="text/javascript" src="js/Events.js"></script>
+        <script type="text/javascript" src="js/projectai.js"></script>
+        
+    </body>
+</html>

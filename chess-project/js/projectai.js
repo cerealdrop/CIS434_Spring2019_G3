@@ -17,7 +17,7 @@ var minimaxRoot = function(depth) {
 	var bestMove = -9999;
 	var bestMoveFound = [];
 
-	genBoard();
+//	genBoard();
     d = new Date().getTime();
     // Gets valid moves for each piece, then checks for the optimal move (for algorithm)
     for (let piece of Array.from(piecePos)) {
@@ -249,7 +249,7 @@ function genBoard() {
 		        }
 		        throw "Unknown piece type: " + piece.abbr;
 			};
-			//return piece.value * 10 + board[y][x] + Math.pow(-1, turn) * getAbsoluteValue(piece, piece.color === 'White', x ,y);
+			//return Math.pow(-1, turn) * getAbsoluteValue(piece, piece.color === 'White', x ,y);
 		    var absoluteValue = Math.pow(-1, turn) * board[y][x] / 5.0 + getAbsoluteValue(piece, piece.color === 'White', x ,y);
 		    return piece.color === 'White' ? -absoluteValue : absoluteValue;
         };

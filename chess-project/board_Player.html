@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -19,24 +19,12 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                   <ul class="navbar-nav">
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                       <b>Select Game</b>
-                      </a>
-                      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">W Player 1 VS B Player 2</a>
-                        <a class="dropdown-item" href="#">B Player 1 VS W Player 2</a>
-                        <a class="dropdown-item" href="#">B AI VS  W Player</a>
-                        <a class="dropdown-item" href="#">W AI VS  B Player</a>
-                      </div>
-                    </li>
                     <li class="nav-item">
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" onClick="window.location.reload();" class="btn btn-success">New Game</button>
-                                    <button type="button" class="btn btn-success" onClick="undoLastMove()">Undo Move</button>
-                                    <button type="button" class="btn btn-success" onClick="undoLastTurn()">Undo Turn</button>
-                            </div>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a href="./board_AI.html" class="btn btn-success" role="button">Player VS Computer</a>
+                            <button type="button" onClick="window.location.reload();" class="btn btn-success">New Game</button>
+                            <button type="button" class="btn btn-success" onClick="undoLastTurn()">Undo Turn</button>
+                        </div>
                     </li>
                   </ul>
                 </div>
@@ -54,22 +42,13 @@
                         </div>
                     </center>
                     <center>
-                            <div class="dropdown">
-                                    <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      Thinking Time
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                      <a class="dropdown-item" href="#">1 Sec</a>
-                                      <a class="dropdown-item" href="#">3 Sec</a>
-                                      <a class="dropdown-item" href="#">5 Sec</a>
-                                    </div>
-                            </div>
-                        </center>
+                        <button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#box"><b>Fen Stats</b></button>
+                    </center>
             
                 </div>
                 <div class="col-6 col-md-8">
                  
-                    <button id="player2" type="button" class="btn head btn-danger btn-lg"><b>AI(Black) VS Player(White)</b></button>
+                    <button id="player2" type="button" class="btn head btn-success btn-lg"><b>Player(Black) VS Player(White)</b></button>
                         <div class="card-body bg-light" style="width: 100%; max-width:650px;">
                             <div class="card-header">     
                         <table>
@@ -179,7 +158,7 @@
                     </div>
                 </div>
                 <div class="col-6 col-md-2">
-                        <button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#box"><b>Fen Stats</b></button>
+              
                         <div id="box" class="collapse">
                           <div class="bax" style="height:500px;width:300px;overflow:auto;background-color:rgba(33, 37, 46, 0.911);color:white;scrollbar-base-color:gold;font-family:sans-serif;padding:10px;">     
                                             <div class="container">          

@@ -11,7 +11,6 @@ var promoteTake = null;
 function setPlayer2() {
 
     vsComputer = document.getElementById("player2").innerHTML.includes("AI");
-    vsComputer = false;
 }
 
 function action(clicked_id) {
